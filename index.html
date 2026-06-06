@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Радужное | Космополитическое экопоселение родовых поместий · Узян, Башкортостан</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --bg: #f9fafb;
+      --surface: #ffffff;
+      --text: #1f2937;
+      --text-secondary: #4b5563;
+      --primary: #0e7c3a;
+      --primary-hover: #09632d;
+      --accent: #f59e0b;
+      --border: #e5e7eb;
+      --hero-bg: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      --card-shadow: 0 12px 28px -10px rgba(0,0,0,0.06);
+      --header-bg: rgba(255,255,255,0.82);
+    }
+    body.dark {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --text: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --primary: #22c55e;
+      --primary-hover: #16a34a;
+      --accent: #fbbf24;
+      --border: #334155;
+      --hero-bg: linear-gradient(135deg, #0f2a1f 0%, #1a3b2e 100%);
+      --card-shadow: 0 12px 28px -10px rgba(0,0,0,0.35);
+      --header-bg: rgba(15,23,42,0.85);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(35px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-35px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeInRight {
+      from { opacity: 0; transform: translateX(35px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(14,124,58,0.45); }
+      70% { box-shadow: 0 0 0 18px rgba(14,124,58,0); }
+      100% { box-shadow: 0 0 0 0 rgba(14,124,58,0); }
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+    }
+    @keyframes softGlow {
+      0% { text-shadow: 0 0 4px rgba(245,158,11,0.3); }
+      50% { text-shadow: 0 0 14px rgba(245,158,11,0.7); }
+      100% { text-shadow: 0 0 4px rgba(245,158,11,0.3); }
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+
+    header {
+      background: var(--header-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+      animation: fadeInUp 0.7s ease-out;
+    }
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.9rem;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: softGlow 3s infinite ease-in-out;
+      cursor: pointer;
+    }
+    .logo i { font-size: 2.1rem; color: var(--accent); animation: float 3.5s infinite ease-in-out; }
+    nav { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    nav a, .page-link {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: color 0.25s, transform 0.2s;
+      font-size: 1rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+    nav a:hover, .page-link:hover { color: var(--primary); transform: translateY(-2px); }
+    .btn-primary {
+      background: var(--primary);
+      color: white !important;
+      padding: 10px 22px;
+      border-radius: 40px;
+      font-weight: 600;
+      transition: background 0.25s, transform 0.2s, box-shadow 0.2s;
+      animation: pulse 2.8s infinite;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1rem;
+    }
+    .btn-primary:hover { background: var(--primary-hover); transform: scale(1.04); box-shadow: 0 8px 18px rgba(14,124,58,0.35); }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+    .btn-outline:hover { background: var(--primary); color: white; }
+    .theme-toggle {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 8px 12px;
+      cursor: pointer;
+      color: var(--text);
+      transition: 0.2s;
+      font-size: 1.1rem;
+    }
+
+    .hero {
+      background: var(--hero-bg);
+      padding: 70px 0 65px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      animation: fadeInUp 0.9s ease;
+    }
+    .hero h1 { font-size: clamp(2.3rem, 6.5vw, 3.6rem); font-weight: 700; color: var(--text); margin-bottom: 22px; line-height: 1.2; animation: fadeInUp 0.8s ease 0.15s both; }
+    .hero p { font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 30px; font-weight: 400; animation: fadeInUp 0.8s ease 0.3s both; }
+    .badge {
+      background: #fef3c7; color: #92400e; border-radius: 30px; padding: 6px 18px;
+      font-weight: 600; display: inline-block; margin-bottom: 25px; font-size: 0.9rem;
+      animation: scaleIn 0.6s ease 0.2s both;
+    }
+    body.dark .badge { background: #3b2e0a; color: #fcd34d; }
+
+    .page { display: none; animation: fadeInUp 0.6s ease; }
+    .page.active { display: block; }
+
+    .section-title { font-size: 2.1rem; font-weight: 700; color: var(--text); margin-bottom: 15px; text-align: center; }
+    .subtitle { color: var(--text-secondary); text-align: center; max-width: 650px; margin: 0 auto 50px; font-size: 1.1rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; margin-top: 30px; }
+    .benefit-card {
+      background: var(--surface); border-radius: 26px; padding: 30px 20px;
+      box-shadow: var(--card-shadow); transition: transform 0.25s ease, box-shadow 0.3s;
+      text-align: center; border: 1px solid var(--border);
+    }
+    .benefit-card:hover { transform: translateY(-7px); box-shadow: 0 22px 34px -14px rgba(14,124,58,0.18); }
+    .benefit-icon { font-size: 2.6rem; color: var(--primary); margin-bottom: 20px; animation: float 4s infinite ease-in-out; }
+
+    .map-container { border-radius: 30px; overflow: hidden; box-shadow: 0 22px 38px -16px rgba(0,0,0,0.16); margin-top: 30px; border: 1px solid var(--border); }
+    .map-placeholder {
+      background: #e5e7eb; height: 400px; display: flex; align-items: center; justify-content: center;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 800 400"><rect width="800" height="400" fill="%23dcfce7"/><circle cx="400" cy="160" r="48" fill="%230e7c3a" opacity="0.8"/><text x="400" y="250" font-family="Inter" font-size="22" fill="%231f2937" text-anchor="middle" font-weight="bold">🌳 Радужное · Узян</text><text x="400" y="280" font-family="Inter" font-size="15" fill="%23374151" text-anchor="middle">53.70° N, 57.98° E</text></svg>');
+      background-size: cover; position: relative;
+    }
+
+    .modal {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(6px); z-index: 200;
+      align-items: center; justify-content: center;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: var(--surface); border-radius: 28px; padding: 35px; max-width: 500px;
+      width: 90%; box-shadow: 0 30px 50px rgba(0,0,0,0.4); animation: scaleIn 0.3s ease;
+      color: var(--text);
+    }
+    .modal-close { float: right; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--text-secondary); }
+
+    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 25px; }
+    .gallery-item {
+      background: var(--surface); border-radius: 18px; height: 160px;
+      background-size: cover; background-position: center; transition: transform 0.3s;
+      border: 1px solid var(--border); cursor: pointer;
+    }
+    .gallery-item:hover { transform: scale(1.03); }
+
+    .faq-item {
+      background: var(--surface); border-radius: 18px; padding: 20px; margin-bottom: 15px;
+      border: 1px solid var(--border); cursor: pointer; transition: 0.2s;
+    }
+    .faq-answer { display: none; margin-top: 12px; color: var(--text-secondary); }
+    .faq-item.open .faq-answer { display: block; }
+
+    footer { background: #111827; color: #d1d5db; padding: 30px 0; text-align: center; font-size: 0.9rem; margin-top: 50px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo" onclick="navigateTo('home')"><i class="fas fa-rainbow"></i> Радужное</div>
+      <nav>
+        <button class="page-link" onclick="navigateTo('home')">Главная</button>
+        <button class="page-link" onclick="navigateTo('benefits')">Преимущества</button>
+        <button class="page-link" onclick="navigateTo('map')">Карта</button>
+        <button class="page-link" onclick="navigateTo('about')">О нас</button>
+        <button class="page-link" onclick="navigateTo('gallery')">Галерея</button>
+        <button class="page-link" onclick="navigateTo('faq')">Вопросы</button>
+        <button class="btn-primary" onclick="openModal('contactModal')">Связаться</button>
+        <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Главная -->
+  <section id="page-home" class="page active">
+    <div class="hero">
+      <div class="container">
+        <span class="badge"><i class="fas fa-globe-americas"></i> Космополитическое сообщество · Узян, Башкортостан</span>
+        <h1>Поселение родовых поместий<br>«Радужное»</h1>
+        <p>Пространство свободы у подножия Южного Урала. Многонациональное экопоселение, где природа и разные культуры сплетаются в единый узор.</p>
+        <button class="btn-primary" style="font-size:1.1rem; padding:14px 34px;" onclick="openModal('contactModal')">Посмотреть участки</button>
+      </div>
+    </div>
+    <div class="container" style="padding:60px 0;">
+      <div class="grid-3">
+        <div class="benefit-card"><div class="benefit-icon"><i class="fas fa-seedling"></i></div><h3>Родовое поместье</h3><p>Участок от 1 га в вечное владение у берегов Узянки.</p></div>
+        <div class="benefit-card"><div class="benefit-icon"><i class="fas fa-handshake"></i></div><h3>Космополитический круг</h3><p>Русские, башкиры, татары, гости из Европы и Азии.</p></div>
+        <div class="benefit-card"><div class="benefit-icon"><i class="fas fa-water"></i></div><h3>Природа Башкирии</h3><p>Чистейший воздух, горные родники и заповедные леса.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Преимущества -->
+  <section id="page-benefits" class="page">
+    <div class="container" style="padding:70px 0;">
+      <h2 class="section-title">Все преимущества</h2>
+      <div class="grid-3">
+        <div class="benefit-card"><i class="fas fa-solar-panel benefit-icon"></i><h3>Автономная энергия</h3><p>Солнечные панели и ветрогенераторы на общих полях.</p></div>
+        <div class="benefit-card"><i class="fas fa-tractor benefit-icon"></i><h3>Общее хозяйство</h3><p>Сады, пасека, органические огороды и фермерский рынок.</p></div>
+        <div class="benefit-card"><i class="fas fa-child benefit-icon"></i><h3>Детский мир</h3><p>Вальдорфская поляна, языковые кружки и свободная игра.</p></div>
+      </div>
+      <div style="text-align:center; margin-top:40px;">
+        <button class="btn-outline" onclick="openModal('detailsModal')">Узнать подробнее</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Карта -->
+  <section id="page-map" class="page">
+    <div class="container" style="padding:70px 0;">
+      <h2 class="section-title">Карта и расположение</h2>
+      <div class="map-container"><div class="map-placeholder"></div></div>
+      <p style="text-align:center; margin-top:20px;"><i class="fas fa-map-pin"></i> 53.70° N, 57.98° E · 15 минут от села Узян</p>
+    </div>
+  </section>
+
+  <!-- О нас -->
+  <section id="page-about" class="page">
+    <div class="container" style="padding:70px 0; display:flex; gap:40px; flex-wrap:wrap;">
+      <div style="flex:1; min-width:280px;">
+        <h2 class="section-title" style="text-align:left;">Философия Радужного</h2>
+        <p>Мы строим сообщество, где каждый может сохранить свои корни и открыться миру. Здесь говорят на разных языках, но понимают друг друга с полуслова.</p>
+        <button class="btn-primary" style="margin-top:20px;" onclick="openModal('philosophyModal')">Читать манифест</button>
+      </div>
+      <div style="flex:1; background:var(--surface); border-radius:24px; padding:25px; border:1px solid var(--border);">
+        <i class="fas fa-quote-right" style="font-size:2rem; color:var(--accent);"></i>
+        <p style="font-style:italic;">«Здесь мой сын учит башкирский у соседей, а я помогаю строить русскую баню для семьи из Аргентины.»</p>
+        <p style="font-weight:600;">— Азамат, житель</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Галерея -->
+  <section id="page-gallery" class="page">
+    <div class="container" style="padding:70px 0;">
+      <h2 class="section-title">Жизнь в Радужном</h2>
+      <div class="gallery">
+        <div class="gallery-item" style="background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 160%22><rect fill=%22%23a7f3d0%22 width=%22200%22 height=%22160%22/><text x=%2230%22 y=%2290%22 font-size=%2230%22>🏡</text></svg>');"></div>
+        <div class="gallery-item" style="background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 160%22><rect fill=%22%23bbf7d0%22 width=%22200%22 height=%22160%22/><text x=%2230%22 y=%2290%22 font-size=%2230%22>🌲</text></svg>');"></div>
+        <div class="gallery-item" style="background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 160%22><rect fill=%22%23fef3c7%22 width=%22200%22 height=%22160%22/><text x=%2230%22 y=%2290%22 font-size=%2230%22>👨‍👩‍👧‍👦</text></svg>');"></div>
+        <div class="gallery-item" style="background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 160%22><rect fill=%22%23d1fae5%22 width=%22200%22 height=%22160%22/><text x=%2230%22 y=%2290%22 font-size=%2230%22>🐝</text></svg>');"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Часто задаваемые вопросы -->
+  <section id="page-faq" class="page">
+    <div class="container" style="padding:70px 0; max-width:800px;">
+      <h2 class="section-title">Частые вопросы</h2>
+      <div class="faq-item" onclick="this.classList.toggle('open')"><strong>Как получить участок?</strong><p class="faq-answer">Вы приезжаете, знакомитесь с сообществом и выбираете свободную землю. Оформляем договор.</p></div>
+      <div class="faq-item" onclick="this.classList.toggle('open')"><strong>Есть ли интернет?</strong><p class="faq-answer">Да, спутниковый интернет и общая точка Wi-Fi в общинном доме.</p></div>
+      <div class="faq-item" onclick="this.classList.toggle('open')"><strong>Можно ли с животными?</strong><p class="faq-answer">Конечно! У многих есть лошади, козы и собаки.</p></div>
+    </div>
+  </section>
+
+  <!-- Модальные окна -->
+  <div id="contactModal" class="modal"><div class="modal-content">
+    <button class="modal-close" onclick="closeModal('contactModal')">&times;</button>
+    <h3>Связаться с нами</h3>
+    <p style="margin:15px 0;"><i class="fas fa-phone"></i> +7 (987) 654-32-10</p>
+    <p><i class="fas fa-envelope"></i> uzian@raduzhnoe.eco</p>
+    <button class="btn-primary" style="margin-top:20px; width:100%;" onclick="closeModal('contactModal')">Закрыть</button>
+  </div></div>
+
+  <div id="detailsModal" class="modal"><div class="modal-content">
+    <button class="modal-close" onclick="closeModal('detailsModal')">&times;</button>
+    <h3>Подробнее о преимуществах</h3>
+    <p>Мы проводим вебинары и высылаем брошюру. Оставьте почту в контактах.</p>
+  </div></div>
+
+  <div id="philosophyModal" class="modal"><div class="modal-content">
+    <button class="modal-close" onclick="closeModal('philosophyModal')">&times;</button>
+    <h3>Манифест Радужного</h3>
+    <p>Мы за осознанную жизнь без границ. Земля — наш общий дом, а культура — мост между сердцами.</p>
+  </div></div>
+
+  <footer><div class="container">© 2026 Радужное · Узян, Башкортостан. Космополитическое экопоселение.</div></footer>
+
+  <script>
+    function navigateTo(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const target = document.getElementById('page-' + pageId);
+      if (target) target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+    window.onclick = function(e) { if (e.target.classList.contains('modal')) e.target.classList.remove('active'); }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const icon = document.querySelector('.theme-toggle i');
+      if (document.body.classList.contains('dark')) { icon.className = 'fas fa-sun'; }
+      else { icon.className = 'fas fa-moon'; }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
