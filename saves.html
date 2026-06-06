@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Радужное — Родовые поместья</title>
+    <style>
+        :root {
+            --bg: #f5f3ee;
+            --surface: #ffffff96;
+            --surface2: #edebe4;
+            --text: #1f221a;
+            --text2: #5a5f4f;
+            --accent: #6b7d3a;
+            --accent2: #b8702e;
+            --accent-glow: rgba(107, 125, 58, 0.18);
+            --border: rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --transition: 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+            --font: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark-theme {
+            --bg: #0f1210;
+            --surface: #181c18;
+            --surface2: #1e231e;
+            --text: #c8cfc0;
+            --text2: #9aa38e;
+            --accent: #8a9e5e;
+            --accent2: #c07d3d;
+            --accent-glow: rgba(138, 158, 94, 0.2);
+            --border: rgba(255, 255, 255, 0.04);
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background var(--transition), color var(--transition);
+            letter-spacing: 0.01em;
+        }
+
+        /* Верхняя панель */
+        .topbar {
+            backdrop-filter: blur(20px);
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 58px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+            gap: 12px;
+            transition: background var(--transition), border var(--transition);
+        }
+        .topbar-logo {
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--text);
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .topbar-logo .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+            animation: dotPulse 3s infinite;
+        }
+        @keyframes dotPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 6px var(--accent-glow);
+            }
+            50% {
+                box-shadow: 0 0 18px var(--accent2);
+            }
+        }
+        .topbar-nav {
+            display: flex;
+            gap: 2px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        .topbar-nav a {
+            text-decoration: none;
+            color: var(--text2);
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+        .topbar-nav a:hover,
+        .topbar-nav a.active {
+            color: var(--text);
+            background: var(--surface2);
+        }
+        .topbar-nav a.active {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        /* Кнопка настроек */
+        .settings-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+            color: var(--text);
+            position: relative;
+        }
+        .settings-btn:hover {
+            background: var(--surface2);
+            transform: rotate(30deg);
+        }
+        .settings-panel {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 16px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+            display: none;
+            flex-direction: column;
+            gap: 14px;
+            min-width: 220px;
+            z-index: 200;
+            animation: dropIn 0.3s ease;
+        }
+        @keyframes dropIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .settings-panel.show {
+            display: flex;
+        }
+        .settings-panel label {
+            font-size: 0.8rem;
+            color: var(--text2);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .settings-panel select {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            color: var(--text);
+            font-family: var(--font);
+            cursor: pointer;
+        }
+        .color-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .color-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all var(--transition);
+        }
+        .color-dot:hover {
+            transform: scale(1.2);
+        }
+        .color-dot.active {
+            border-color: var(--text);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* Переключатель темы */
+        .theme-switch {
+            width: 44px;
+            height: 26px;
+            background: var(--surface2);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .theme-switch::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            top: 2px;
+            left: 2px;
+            transition: all var(--transition);
+        }
+        .dark-theme .theme-switch::after {
+            left: 20px;
+            background: var(--accent2);
+        }
+        .theme-switch .icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.7rem;
+            pointer-events: none;
+        }
+        .theme-switch .sun {
+            left: 3px;
+        }
+        .theme-switch .moon {
+            right: 3px;
+            opacity: 0.4;
+        }
+        .dark-theme .theme-switch .sun {
+            opacity: 0.4;
+        }
+        .dark-theme .theme-switch .moon {
+            opacity: 1;
+        }
+
+        /* Основной контент */
+        .main {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 36px 20px 60px;
+        }
+        .page {
+            display: none;
+            animation: pageReveal 0.5s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes pageReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Крупный блок на главной */
+        .hero-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 48px 36px;
+            text-align: center;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        .hero-block::before {
+            content: '';
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            top: -60px;
+            left: -60px;
+            animation: heroGlow 8s infinite alternate;
+        }
+        .hero-block::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(184, 112, 46, 0.12) 0%, transparent 70%);
+            bottom: -40px;
+            right: -40px;
+            animation: heroGlow 10s infinite alternate-reverse;
+        }
+        @keyframes heroGlow {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.3);
+            }
+        }
+        .hero-icon {
+            font-size: 4rem;
+            position: relative;
+            z-index: 2;
+            animation: heroFloat 4s ease-in-out infinite;
+            display: block;
+            margin-bottom: 12px;
+        }
+        @keyframes heroFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-14px);
+            }
+        }
+        .hero-block h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+        }
+        .hero-block .hero-sub {
+            font-size: 1.2rem;
+            color: var(--text2);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Типографика */
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 28px 0 12px;
+            color: var(--text);
+            letter-spacing: -0.02em;
+        }
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .subtitle {
+            color: var(--accent);
+            font-size: 1rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        p {
+            color: var(--text2);
+            margin-bottom: 10px;
+        }
+
+        /* Сетка */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px 18px;
+            box-shadow: var(--shadow);
+            transition: all var(--transition);
+        }
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.07);
+        }
+        .card .icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Справочник */
+        .ref-wrapper {
+            display: flex;
+            gap: 24px;
+            margin-top: 12px;
+        }
+        .ref-sidebar {
+            width: 190px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+        .ref-sidebar a {
+            text-decoration: none;
+            color: var(--text2);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: all var(--transition);
+        }
+        .ref-sidebar a:hover,
+        .ref-sidebar a.active {
+            color: var(--text);
+            background: var(--surface2);
+        }
+        .ref-sidebar a.active {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .ref-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .ref-page {
+            display: none;
+            animation: pageReveal 0.4s ease;
+        }
+        .ref-page.active {
+            display: block;
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            padding: 9px 20px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            cursor: pointer;
+            font-family: var(--font);
+            font-size: 0.86rem;
+            font-weight: 500;
+            transition: all var(--transition);
+            text-decoration: none;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+        .btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+            box-shadow: 0 6px 16px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+        .btn.accent {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+            font-weight: 600;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text);
+            font-family: var(--font);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all var(--transition);
+            margin-top: 18px;
+        }
+        .back-btn:hover {
+            background: var(--surface2);
+            transform: translateX(-3px);
+        }
+
+        /* Список */
+        .feature-list {
+            list-style: none;
+            display: grid;
+            gap: 8px;
+        }
+        .feature-list li {
+            padding: 12px 16px;
+            background: var(--surface);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+        .feature-list li:hover {
+            border-color: var(--accent);
+            transform: translateX(4px);
+        }
+        .feature-list .check {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Карта */
+        .map-wrapper {
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin-top: 12px;
+            filter: grayscale(15%);
+            transition: all var(--transition);
+        }
+        .map-wrapper:hover {
+            filter: grayscale(0%);
+        }
+        .map-wrapper iframe {
+            width: 100%;
+            height: 340px;
+            border: none;
+            display: block;
+        }
+
+        /* Форма */
+        .form-group {
+            margin-bottom: 12px;
+        }
+        input,
+        textarea {
+            width: 100%;
+            padding: 11px 14px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: var(--font);
+            font-size: 0.88rem;
+            transition: all var(--transition);
+            resize: vertical;
+        }
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        /* Таблица */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+            font-size: 0.88rem;
+        }
+        th,
+        td {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+        th {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        /* Адаптив */
+        @media (max-width: 768px) {
+            .topbar {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 8px 10px;
+                gap: 6px;
+            }
+            .topbar-nav {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+            }
+            .topbar-nav a {
+                font-size: 0.78rem;
+                padding: 5px 8px;
+            }
+            .hero-block {
+                padding: 28px 16px;
+            }
+            .hero-block h1 {
+                font-size: 2rem;
+            }
+            .hero-icon {
+                font-size: 2.8rem;
+            }
+            .ref-wrapper {
+                flex-direction: column;
+            }
+            .ref-sidebar {
+                width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 3px;
+            }
+            .main {
+                padding: 16px 10px 40px;
+            }
+        }
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--surface2);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Верхняя панель -->
+    <header class="topbar" id="topbar">
+        <a href="#home" class="topbar-logo" data-nav="home">
+            <span class="dot"></span> Радужное
+        </a>
+        <nav>
+            <ul class="topbar-nav" id="topNav">
+                <li><a href="#home" class="active" data-page="home">Главная</a></li>
+                <li><a href="#about" data-page="about">О поселении</a></li>
+                <li><a href="#advantages" data-page="advantages">Преимущества</a></li>
+                <li><a href="#map" data-page="map">Карта</a></li>
+                <li><a href="#reference" data-page="reference">Справочник</a></li>
+                <li><a href="#contact" data-page="contact">Контакты</a></li>
+            </ul>
+        </nav>
+        <div class="topbar-actions">
+            <div style="position:relative;">
+                <button class="settings-btn" id="settingsToggle" title="Настройки">⚙️</button>
+                <div class="settings-panel" id="settingsPanel">
+                    <label>🌐 Язык</label>
+                    <select id="langSelect">
+                        <option value="ru">Русский</option>
+                        <option value="en">English</option>
+                        <option value="ba">Башҡортса</option>
+                        <option value="de">Deutsch</option>
+                        <option value="es">Español</option>
+                    </select>
+                    <label>🎨 Акцентный цвет</label>
+                    <div class="color-options" id="colorOptions">
+                        <span class="color-dot active" data-color="#6b7d3a" style="background:#6b7d3a;" title="Лесной зелёный"></span>
+                        <span class="color-dot" data-color="#4a7c8c" style="background:#4a7c8c;" title="Голубой"></span>
+                        <span class="color-dot" data-color="#8b5e3c" style="background:#8b5e3c;" title="Терракотовый"></span>
+                        <span class="color-dot" data-color="#7b4a8c" style="background:#7b4a8c;" title="Фиолетовый"></span>
+                        <span class="color-dot" data-color="#c04040" style="background:#c04040;" title="Красный"></span>
+                    </div>
+                </div>
+            </div>
+            <button class="theme-switch" id="themeToggle" title="Тема">
+                <span class="icon sun">☀️</span>
+                <span class="icon moon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="main" id="mainContent">
+
+        <!-- Главная -->
+        <section class="page active" id="home">
+            <div class="hero-block">
+                <span class="hero-icon"><img src="gerb.png" width="120" height="150" alt="Герб Радужного"></span>
+                <h1>Радужное</h1>
+                <p class="hero-sub">Космополитическое экопоселение в сердце Южного Урала</p>
+            </div>
+            <p class="subtitle">Космополитическое экопоселение "Радужное" находится в Белорецком районе Республики Башкортостан</p>
+            <p>«Радужное» — это не просто поселение. Это философия осознанной жизни в единстве с природой. Мы строим сообщество, где природа и человек существуют в гармонии, где ценятся чистый воздух, родниковая вода и здоровый образ жизни.</p>
+            <p>Наше поселение расположено в одном из самых экологически чистых районов Башкортостана — вдали от промышленных зон, среди гор и смешанных лесов. Река Белая протекает в непосредственной близости, обеспечивая возможность для купания и рыбалки. Климат умеренно-континентальный: тёплое лето и снежная зима создают идеальные условия для круглогодичного проживания.</p>
+            <p>Мы — космополитическое сообщество. Здесь приветствуются люди любых национальностей и культур, разделяющие ценности экологии и взаимоуважения. Среди наших поселенцев уже есть семьи из разных регионов России и из-за рубежа.</p>
+            <div style="margin-top:20px;">
+                <a href="#about" class="btn accent" data-nav="about">Узнать о поселении</a>
+                <a href="#reference" class="btn" data-nav="reference">Справочник</a>
+                <a href="#contact" class="btn" data-nav="contact">Связаться</a>
+            </div>
+            <div class="grid" style="margin-top:28px;">
+                <div class="card">
+                    <span class="icon">📍</span><h3>Местоположение</h3>
+                    <p>Узян, Белорецкий район. 200 км от Уфы, удобный подъезд круглый год.</p>
+                </div>
+                <div class="card">
+                    <span class="icon">🌲</span><h3>Природа</h3>
+                    <p>Горный ландшафт, смешанные леса, река. Идеально для автономной жизни.</p>
+                </div>
+                <div class="card">
+                    <span class="icon">🤝</span><h3>Сообщество</h3>
+                    <p>Открытое, интернациональное. Совместные проекты и взаимопомощь.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- О поселении -->
+        <section class="page" id="about">
+            <h1>О поселении</h1>
+            <p class="subtitle">Идеология, устройство и образ жизни</p>
+            <p>«Радужное» основано в 2018 году группой единомышленников. На данный момент в поселении более 20 семей, и мы продолжаем расти. Каждый участок — отдельное родовое поместье от 1 до 3 гектаров.</p>
+            <div class="grid">
+                <div class="card"><span class="icon">🏡</span><h3>Участки</h3><p>От 1 га. Земля в собственность. Поможем с оформлением.</p></div>
+                <div class="card"><span class="icon">⚡</span><h3>Энергия</h3><p>Солнечные панели, ветрогенераторы. Консультации по автономным системам.</p></div>
+                <div class="card"><span class="icon">💧</span><h3>Вода</h3><p>Родники на территории. Река Узян в пешей доступности.</p></div>
+                <div class="card"><span class="icon">🌍</span><h3>Люди</h3><p>Интернациональное сообщество. Фестивали, обмен опытом.</p></div>
+            </div>
+        </section>
+
+        <!-- Преимущества -->
+        <section class="page" id="advantages">
+            <h1>Преимущества</h1>
+            <p class="subtitle">Почему выбирают Радужное</p>
+            <ul class="feature-list">
+                <li><span class="check">✓</span> Доступная стоимость земли</li>
+                <li><span class="check">✓</span> Экологически чистый район</li>
+                <li><span class="check">✓</span> Господдержка сельских территорий</li>
+                <li><span class="check">✓</span> Круглогодичный подъезд</li>
+                <li><span class="check">✓</span> Устойчивый интернет и связь</li>
+                <li><span class="check">✓</span> Школа и магазины в 10 минутах</li>
+                <li><span class="check">✓</span> Рядом горы, сплавы, курорты</li>
+            </ul>
+        </section>
+
+        <!-- Карта -->
+        <section class="page" id="map">
+            <h1>Карта</h1>
+            <p class="subtitle">География и расположение</p>
+            <div class="map-wrapper">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2308.211542006567!2d58.015!3d53.67!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTPCsDQwJzEyLjAiTiA1OMKwMDAnNTQuMCJF!5e0!3m2!1sru!2sru!4v1690000000000" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <p style="margin-top:10px;font-size:0.84rem;color:var(--text2);">53.67°N, 58.015°E • Узян, Белорецкий район, Башкортостан</p>
+        </section>
+
+        <!-- Справочник -->
+        <section class="page" id="reference">
+            <h1>Справочник</h1>
+            <p class="subtitle">Подробная информация для поселенцев</p>
+            <div class="ref-wrapper">
+                <aside class="ref-sidebar" id="refSidebar">
+                    <a href="#ref-general" class="active" data-ref="ref-general">Общая информация</a>
+                    <a href="#ref-legal" data-ref="ref-legal">Юридические вопросы</a>
+                    <a href="#ref-building" data-ref="ref-building">Строительство</a>
+                    <a href="#ref-energy" data-ref="ref-energy">Энергия и вода</a>
+                    <a href="#ref-farming" data-ref="ref-farming">Земледелие</a>
+                    <a href="#ref-faq" data-ref="ref-faq">Частые вопросы</a>
+                </aside>
+                <div class="ref-content" id="refContent">
+                    <div class="ref-page active" id="ref-general">
+                        <h2>Общая информация</h2>
+                        <p>Поселение «Радужное» расположено на землях сельхозназначения с разрешённым использованием «для ведения ЛПХ». Можно строить дом, разбивать сад, содержать животных.</p>
+                        <table>
+                            <tr><th>Параметр</th><th>Значение</th></tr>
+                            <tr><td>Общая площадь</td><td>~120 га</td></tr>
+                            <tr><td>Размер участка</td><td>1–3 га</td></tr>
+                            <tr><td>Освоено</td><td>~40%</td></tr>
+                            <tr><td>Семей проживает</td><td>23</td></tr>
+                        </table>
+                    </div>
+                    <div class="ref-page" id="ref-legal">
+                        <h2>Юридические вопросы</h2>
+                        <p>Земля в собственность через договор купли-продажи. Аккредитованные юристы помогают на всех этапах. Возможна поэтапная оплата, первый взнос от 30%.</p>
+                    </div>
+                    <div class="ref-page" id="ref-building">
+                        <h2>Строительство</h2>
+                        <p>Приветствуются экологичные технологии: каркас, брус, саман. Есть проверенные бригады. Электричество — сеть или солнечные панели.</p>
+                    </div>
+                    <div class="ref-page" id="ref-energy">
+                        <h2>Энергия и водоснабжение</h2>
+                        <p>Родники и скважины (15–40 м). Вода проверена лабораторно. Рекомендуем солнечные комплекты от 3 кВт.</p>
+                    </div>
+                    <div class="ref-page" id="ref-farming">
+                        <h2>Земледелие</h2>
+                        <p>Почвы — серые лесные. Хорошо растут яблони, груши, овощи. Практикуем пермакультуру и сидераты.</p>
+                    </div>
+                    <div class="ref-page" id="ref-faq">
+                        <h2>Частые вопросы</h2>
+                        <p><strong>Можно ли приехать с палаткой?</strong> Да, предварительно свяжитесь с нами.</p>
+                        <p><strong>Есть ли интернет?</strong> Устойчивый 4G, спутниковый интернет у некоторых семей.</p>
+                    </div>
+                    <button class="back-btn" id="backFromRef">← Назад к разделам</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Контакты -->
+        <section class="page" id="contact">
+            <h1>Контакты</h1>
+            <p class="subtitle">Свяжитесь с нами или приезжайте</p>
+            <div class="grid">
+                <div class="card"><span class="icon">📞</span><h3>Телефон</h3><p>+7 (917) 413-19-XX</p></div>
+                <div class="card"><span class="icon">✉️</span><h3>Почта</h3><p>info@raduzhnoe-bashkiria.ru</p></div>
+                <div class="card"><span class="icon">📍</span><h3>Адрес</h3><p>Башкортостан, Белорецкий р-н.</p></div>
+                <div class="card"><span class="icon">🕐</span><h3>Визиты</h3><p>Экскурсии по субботам, по согласованию.</p></div>
+            </div>
+            <h2>Написать нам</h2>
+            <form id="contactForm" style="max-width:460px;">
+                <div class="form-group"><input type="text" placeholder="Ваше имя" required></div>
+                <div class="form-group"><input type="email" placeholder="Email" required></div>
+                <div class="form-group"><textarea rows="4" placeholder="Сообщение..." required></textarea></div>
+                <button type="submit" class="btn accent">Отправить</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Google Translate Widget (скрытый, для программного управления) -->
+    <div id="google_translate_element" style="display:none;"></div>
+
+    <script>
+        // === Навигация по основным страницам ===
+        const pages = document.querySelectorAll('.page');
+        const topNavLinks = document.querySelectorAll('#topNav a');
+        const topbar = document.getElementById('topbar');
+        const logoLink = document.querySelector('.topbar-logo');
+
+        function navigateTo(pageId) {
+            pages.forEach(p => p.classList.remove('active'));
+            topNavLinks.forEach(l => l.classList.remove('active'));
+            const targetPage = document.getElementById(pageId);
+            const targetLink = document.querySelector(`#topNav a[data-page="${pageId}"]`);
+            if (targetPage) targetPage.classList.add('active');
+            if (targetLink) targetLink.classList.add('active');
+
+            // Если перешли в справочник — скрываем верхнюю навигацию
+            if (pageId === 'reference') {
+                topbar.style.display = 'none';
+            } else {
+                topbar.style.display = '';
+            }
+
+            window.location.hash = pageId;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        topNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navigateTo(link.getAttribute('data-page'));
+            });
+        });
+        logoLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            navigateTo('home');
+        });
+        document.querySelectorAll('[data-nav]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                navigateTo(btn.getAttribute('data-nav'));
+            });
+        });
+
+        function loadFromHash() {
+            const hash = window.location.hash.replace('#', '');
+            if (hash && document.getElementById(hash)) navigateTo(hash);
+        }
+        window.addEventListener('hashchange', loadFromHash);
+        loadFromHash();
+
+        // === Навигация внутри Справочника ===
+        const refPages = document.querySelectorAll('.ref-page');
+        const refLinks = document.querySelectorAll('#refSidebar a');
+
+        function navigateRef(refId) {
+            refPages.forEach(p => p.classList.remove('active'));
+            refLinks.forEach(l => l.classList.remove('active'));
+            const tr = document.getElementById(refId);
+            const tl = document.querySelector(`#refSidebar a[data-ref="${refId}"]`);
+            if (tr) tr.classList.add('active');
+            if (tl) tl.classList.add('active');
+        }
+        refLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navigateRef(link.getAttribute('data-ref'));
+            });
+        });
+        document.getElementById('backFromRef').addEventListener('click', () => {
+            navigateRef('ref-general');
+        });
+
+        // === Тема ===
+        const themeToggle = document.getElementById('themeToggle');
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+        });
+
+        // === Панель настроек ===
+        const settingsToggle = document.getElementById('settingsToggle');
+        const settingsPanel = document.getElementById('settingsPanel');
+        settingsToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            settingsPanel.classList.toggle('show');
+        });
+        document.addEventListener('click', (e) => {
+            if (!settingsPanel.contains(e.target) && e.target !== settingsToggle) {
+                settingsPanel.classList.remove('show');
+            }
+        });
+
+        // === Акцентный цвет ===
+        const colorDots = document.querySelectorAll('.color-dot');
+        const root = document.documentElement;
+        colorDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                colorDots.forEach(d => d.classList.remove('active'));
+                dot.classList.add('active');
+                const color = dot.getAttribute('data-color');
+                root.style.setProperty('--accent', color);
+                root.style.setProperty('--accent-glow', color + '30');
+                localStorage.setItem('accentColor', color);
+            });
+        });
+        const savedAccent = localStorage.getItem('accentColor');
+        if (savedAccent) {
+            root.style.setProperty('--accent', savedAccent);
+            root.style.setProperty('--accent-glow', savedAccent + '30');
+            colorDots.forEach(d => d.classList.remove('active'));
+            const match = document.querySelector(`.color-dot[data-color="${savedAccent}"]`);
+            if (match) match.classList.add('active');
+        }
+
+        // === Язык (Google Translate) ===
+        let translateInitialized = false;
+
+        function initGoogleTranslate() {
+            if (translateInitialized) return;
+            translateInitialized = true;
+            const script = document.createElement('script');
+            script.src =
+                'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            document.body.appendChild(script);
+        }
+        window.googleTranslateElementInit = function() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'ru',
+                includedLanguages: 'ru,en,ba,de,es',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false,
+            }, 'google_translate_element');
+            // Принудительно применяем выбранный язык
+            applyStoredLanguage();
+        };
+
+        function applyStoredLanguage() {
+            const storedLang = localStorage.getItem('selectedLang') || 'ru';
+            if (storedLang === 'ru') return;
+            setTimeout(() => {
+                const select = document.querySelector('.goog-te-combo');
+                if (select) {
+                    select.value = storedLang;
+                    select.dispatchEvent(new Event('change'));
+                }
+            }, 800);
+        }
+
+        document.getElementById('langSelect').addEventListener('change', function() {
+            const lang = this.value;
+            localStorage.setItem('selectedLang', lang);
+            initGoogleTranslate();
+            if (lang === 'ru') {
+                // Сброс перевода
+                const select = document.querySelector('.goog-te-combo');
+                if (select) {
+                    select.value = 'ru';
+                    select.dispatchEvent(new Event('change'));
+                }
+                return;
+            }
+            // Ждём загрузки виджета и применяем
+            const checkInterval = setInterval(() => {
+                const select = document.querySelector('.goog-te-combo');
+                if (select) {
+                    select.value = lang;
+                    select.dispatchEvent(new Event('change'));
+                    clearInterval(checkInterval);
+                }
+            }, 300);
+        });
+
+        // Загружаем сохранённый язык
+        const savedLang = localStorage.getItem('selectedLang') || 'ru';
+        document.getElementById('langSelect').value = savedLang;
+        if (savedLang !== 'ru') {
+            initGoogleTranslate();
+        }
+
+        // Скрываем баннер Google Translate
+        const styleEl = document.createElement('style');
+        styleEl.textContent = `
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0 !important; }
+        .goog-te-gadget { display: none !important; }
+        .skiptranslate { display: none !important; }
+      `;
+        document.head.appendChild(styleEl);
+
+        // === Форма ===
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.btn');
+            const orig = btn.textContent;
+            btn.textContent = 'Отправлено ✓';
+            btn.style.background = '#4a7c4f';
+            btn.style.borderColor = '#4a7c4f';
+            setTimeout(() => {
+                btn.textContent = orig;
+                btn.style.background = '';
+                btn.style.borderColor = '';
+                this.reset();
+            }, 2200);
+        });
+    </script>
+</body>
+</html>

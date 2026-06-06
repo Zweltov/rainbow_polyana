@@ -21,6 +21,8 @@
       --hero-bg: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
       --card-shadow: 0 12px 28px -10px rgba(0,0,0,0.06);
       --header-bg: rgba(255,255,255,0.82);
+      --toggle-bg: #e2e8f0;
+      --toggle-knob: #ffffff;
     }
     body.dark {
       --bg: #0f172a;
@@ -34,6 +36,8 @@
       --hero-bg: linear-gradient(135deg, #0f2a1f 0%, #1a3b2e 100%);
       --card-shadow: 0 12px 28px -10px rgba(0,0,0,0.35);
       --header-bg: rgba(15,23,42,0.85);
+      --toggle-bg: #475569;
+      --toggle-knob: #e2e8f0;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -159,7 +163,86 @@
       font-size: 0.95rem;
     }
     .btn-outline:hover { background: var(--primary); color: white; }
-    .theme-toggle {
+    
+    /* ——— Стили для ползунка (toggle switch) ——— */
+    .theme-switch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 5px 12px 5px 8px;
+      transition: background 0.2s;
+    }
+    .switch-label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 52px;
+      height: 26px;
+      margin: 0 4px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--toggle-bg);
+      transition: 0.3s;
+      border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: var(--toggle-knob);
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    .slider i {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      transition: opacity 0.2s;
+    }
+    .sun-icon {
+      left: 8px;
+      color: #f59e0b;
+      opacity: 1;
+    }
+    .moon-icon {
+      right: 7px;
+      color: #94a3b8;
+      opacity: 0.6;
+    }
+    input:checked + .slider .sun-icon {
+      opacity: 0.3;
+    }
+    input:checked + .slider .moon-icon {
+      opacity: 1;
+    }
+    
+    /* кнопка настроек */
+    .settings-btn {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 30px;
@@ -167,6 +250,17 @@
       cursor: pointer;
       color: var(--text);
       transition: 0.2s;
+      font-size: 1.1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .settings-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    .settings-btn i {
       font-size: 1.1rem;
     }
 
@@ -220,6 +314,46 @@
     }
     .modal-close { float: right; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--text-secondary); }
 
+    /* стили для окна настроек — акцентные цвета */
+    .accent-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 25px 0;
+      justify-content: center;
+    }
+    .accent-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .accent-option:hover { transform: scale(1.05); }
+    .accent-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 3px solid var(--border);
+      transition: 0.2s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .accent-option.selected .accent-circle {
+      border-color: var(--text);
+      transform: scale(1.08);
+      box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--primary);
+    }
+    .accent-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    .accent-option.selected .accent-label {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
     .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 25px; }
     .gallery-item {
       background: var(--surface); border-radius: 18px; height: 160px;
@@ -250,7 +384,24 @@
         <button class="page-link" onclick="navigateTo('gallery')">Галерея</button>
         <button class="page-link" onclick="navigateTo('faq')">Вопросы</button>
         <button class="btn-primary" onclick="openModal('contactModal')">Связаться</button>
-        <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        
+        <!-- ползунок темы вместо кнопки -->
+        <div class="theme-switch">
+          <span class="switch-label"><i class="fas fa-sun" style="font-size:0.8rem;"></i></span>
+          <label class="switch">
+            <input type="checkbox" id="themeToggleCheckbox">
+            <span class="slider">
+              <i class="fas fa-sun sun-icon"></i>
+              <i class="fas fa-moon moon-icon"></i>
+            </span>
+          </label>
+          <span class="switch-label"><i class="fas fa-moon" style="font-size:0.8rem;"></i></span>
+        </div>
+
+        <!-- новая кнопка НАСТРОЙКИ -->
+        <button class="settings-btn" onclick="openModal('settingsModal')">
+          <i class="fas fa-sliders-h"></i> Настройки
+        </button>
       </nav>
     </div>
   </header>
@@ -358,9 +509,23 @@
     <p>Мы за осознанную жизнь без границ. Земля — наш общий дом, а культура — мост между сердцами.</p>
   </div></div>
 
-  <footer><div class="container">© 2026 Радужное · Узян, Башкортостан. Космополитическое экопоселение.</div></footer>
+  <!-- НОВОЕ: Модальное окно настроек (акцентный цвет) -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('settingsModal')">&times;</button>
+      <h3 style="margin-bottom: 10px;"><i class="fas fa-palette"></i> Настройки внешнего вида</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 15px;">Выберите акцентный цвет (основной цвет элементов)</p>
+      <div class="accent-options" id="accentOptionsContainer">
+        <!-- варианты будут динамически добавлены и управление через JS -->
+      </div>
+      <button class="btn-primary" style="width:100%; margin-top: 10px;" onclick="closeModal('settingsModal')">Готово</button>
+    </div>
+  </div>
+
+  <footer><div class="container">© 2026 Радужное · Узян, Башкортостан. Космополитическое экопоселение. <a href="saves.html">Старая версия сайта</a></div></footer>
 
   <script>
+    // Функция навигации по страницам
     function navigateTo(pageId) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       const target = document.getElementById('page-' + pageId);
@@ -371,17 +536,116 @@
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
     window.onclick = function(e) { if (e.target.classList.contains('modal')) e.target.classList.remove('active'); }
 
-    function toggleTheme() {
-      document.body.classList.toggle('dark');
-      const icon = document.querySelector('.theme-toggle i');
-      if (document.body.classList.contains('dark')) { icon.className = 'fas fa-sun'; }
-      else { icon.className = 'fas fa-moon'; }
+    // --- ТЕМНАЯ ТЕМА через ползунок (toggle) ---
+    const themeCheckbox = document.getElementById('themeToggleCheckbox');
+    function applyThemeState() {
+      if (document.body.classList.contains('dark')) {
+        themeCheckbox.checked = true;
+      } else {
+        themeCheckbox.checked = false;
+      }
+    }
+    function toggleThemeFromSwitch() {
+      if (themeCheckbox.checked) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+      // После переключения синхронизируем иконку в ползунке (CSS уже меняет вид)
+    }
+    themeCheckbox.addEventListener('change', toggleThemeFromSwitch);
+    // начальная синхронизация (по умолчанию светлая)
+    applyThemeState();
+
+    // --- УПРАВЛЕНИЕ АКЦЕНТНЫМ ЦВЕТОМ (динамическое изменение CSS-переменной --primary и --primary-hover, + возможно --accent) ---
+    // Предустановленные цвета (название, код primary, код hover, код accent на выбор)
+    const accentPresets = [
+      { name: 'Изумруд', primary: '#0e7c3a', hover: '#09632d', accent: '#f59e0b' },    // оригинал
+      { name: 'Лазурный', primary: '#0284c7', hover: '#0369a1', accent: '#f97316' },
+      { name: 'Терракотовый', primary: '#c2410c', hover: '#9a3412', accent: '#eab308' },
+      { name: 'Фиолетовый', primary: '#7c3aed', hover: '#6d28d9', accent: '#f59e0b' },
+      { name: 'Морская волна', primary: '#0d9488', hover: '#0f766e', accent: '#fbbf24' }
+    ];
+
+    let currentAccent = localStorage.getItem('raduzhnoe_accent') || '0'; // индекс по умолчанию 0
+    function setAccentColor(index) {
+      const preset = accentPresets[index];
+      if (!preset) return;
+      // обновляем CSS переменные :root и body (глобально)
+      document.documentElement.style.setProperty('--primary', preset.primary);
+      document.documentElement.style.setProperty('--primary-hover', preset.hover);
+      document.documentElement.style.setProperty('--accent', preset.accent);
+      localStorage.setItem('raduzhnoe_accent', index);
+      // обновить визуальное выделение в модальном окне (если открыто)
+      document.querySelectorAll('.accent-option').forEach((opt, idx) => {
+        if (idx == index) opt.classList.add('selected');
+        else opt.classList.remove('selected');
+      });
+      // также переключатели, кнопки, hover эффекты обновятся автоматически через переменные
     }
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.2 });
-    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+    function renderAccentOptions() {
+      const container = document.getElementById('accentOptionsContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      accentPresets.forEach((preset, idx) => {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'accent-option';
+        if (idx == currentAccent) optionDiv.classList.add('selected');
+        optionDiv.setAttribute('data-index', idx);
+        const circle = document.createElement('div');
+        circle.className = 'accent-circle';
+        circle.style.backgroundColor = preset.primary;
+        circle.style.borderColor = 'var(--border)';
+        const label = document.createElement('span');
+        label.className = 'accent-label';
+        label.textContent = preset.name;
+        optionDiv.appendChild(circle);
+        optionDiv.appendChild(label);
+        optionDiv.addEventListener('click', (e) => {
+          e.stopPropagation();
+          currentAccent = idx;
+          setAccentColor(currentAccent);
+          // закрывать окно не нужно, просто обновляем выделение
+          renderAccentOptions();  // перерисовка чтобы синхронизировать класс selected
+        });
+        container.appendChild(optionDiv);
+      });
+    }
+
+    // загружаем сохранённый акцент или применяем индекс 0 по умолчанию
+    const savedAccent = localStorage.getItem('raduzhnoe_accent');
+    if (savedAccent !== null && accentPresets[savedAccent]) {
+      currentAccent = parseInt(savedAccent);
+    } else {
+      currentAccent = 0;
+    }
+    setAccentColor(currentAccent);
+
+    // при открытии окна настроек перерисуем палитру, чтобы отобразить актуальный выбор
+    const settingsModal = document.getElementById('settingsModal');
+    const originalModalDisplay = settingsModal.style.display;
+    // наблюдаем за открытием модалки, но проще при каждом вызове openModal для settingsModal обновлять палитру
+    const originalOpenModal = window.openModal;
+    window.openModal = function(id) {
+      if (id === 'settingsModal') {
+        renderAccentOptions(); // обновляем опции, чтобы подхватить текущий выбранный цвет
+      }
+      originalOpenModal(id);
+    };
+    // также при клике на кнопку настроек, которая вызывает openModal, отработает обновление
+    
+    renderAccentOptions(); // начальная отрисовка
+    
+    // дополнительная фиксация: чтобы при загрузке страницы акцент уже был
+    document.addEventListener('DOMContentLoaded', () => {
+      // дополнительные проверки для анимаций и возможно сохранение темы из localStorage не нужно, т.к. тема по умолчанию светлая,
+      // но ползунок синхронизирован выше
+      applyThemeState();
+    });
+    
+    // исправление для обычной навигации модалок - убираем баг с дублированием обработчиков
+    // все модалки закрываются нормально
   </script>
 </body>
 </html>
